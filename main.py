@@ -5,7 +5,7 @@ import numpy as np
 # Inicializar Pygame
 pygame.init()
 
-# Configuración de la ventana (ampliada para más espacio)
+# Configuración de la ventana 
 WIDTH, HEIGHT = 1200, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Movimiento del objeto con fuerzas")
@@ -25,7 +25,7 @@ num_frames = int(t_max / dt)
 
 # Escala para convertir metros a píxeles
 SCALE = 20  # 20 píxeles por metro
-OFFSET_X, OFFSET_Y = 2 * SCALE, HEIGHT - 50  # Inicia lo más a la izquierda y lo más arriba posible
+OFFSET_X, OFFSET_Y = 2 * SCALE, HEIGHT - 50  
 
 # Fuerzas (en N) - Originales para cálculos
 F1_x, F1_y = -2.00, 2.00  
@@ -44,18 +44,18 @@ frame = 0
 # Calcular respuestas a las preguntas
 
 # a) Dirección de la aceleración
-a_magnitude = math.sqrt(a_x**2 + a_y**2)  # Magnitud de la aceleración
-angle_acc = math.atan2(a_y, a_x)  # Ángulo en radianes
-angle_deg = math.degrees(angle_acc)  # Convertir a grados
-direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg  - 360# Ajustar a 0-360°
+a_magnitude = math.sqrt(a_x**2 + a_y**2) 
+angle_acc = math.atan2(a_y, a_x) 
+angle_deg = math.degrees(angle_acc)  
+direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg  - 360
 
 # b) Masa del objeto
-mass = F_net_magnitude / a_magnitude  # m = |F| / |a|
+mass = F_net_magnitude / a_magnitude 
 
 # c) Rapidez después de 10.0 s (objeto en reposo inicialmente)
-v_x = a_x * 10.0  # v_x = a_x * t
-v_y = a_y * 10.0  # v_y = a_y * t
-speed = math.sqrt(v_x**2 + v_y**2)  # Rapidez = sqrt(v_x^2 + v_y^2)
+v_x = a_x * 10.0  
+v_y = a_y * 10.0 
+speed = math.sqrt(v_x**2 + v_y**2) 
 
 # d) Componentes de velocidad después de 10.0 s
 v_x_comp = v_x
