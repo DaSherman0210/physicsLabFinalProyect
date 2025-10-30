@@ -18,39 +18,45 @@ GREEN = (0, 255, 0)
 PURPLE = (128, 0, 128)
 
 # Parámetros del problema
-a_x, a_y = 3.558, -1.186  # Componentes de la aceleración (m/s^2)
 t_max = 10.0  # Tiempo total (s)
 dt = 0.05  # Intervalo de tiempo (s)
 num_frames = int(t_max / dt)
 
 # Escala para convertir metros a píxeles
-SCALE = 20  # 20 píxeles por metro
+SCALE = 50  # píxeles por metro
 OFFSET_X, OFFSET_Y = 2 * SCALE, HEIGHT - 50  
 
-# Fuerzas (en N) - Originales para cálculos
-F1_x, F1_y = -2.00, 2.00  
-F2_x, F2_y = 5.00, -3.00 
+# Fuerzas (en N)
+# F1_x, F1_y = -0.6, -5.5  # Fuerza 1
+F1_x, F1_y = 3, 0
+F2_x, F2_y = 0, -4.5     # Fuerza 2
 F_net_x, F_net_y = F1_x + F2_x, F1_y + F2_y  # Fuerza neta
 F_net_magnitude = math.sqrt(F_net_x**2 + F_net_y**2)  # Magnitud de la fuerza neta
 
+# Calcular la masa y la aceleración a partir de F_net (ajustada)
+a_magnitude_initial = math.sqrt(0.5**2 + 0**2)  # Magnitud inicial de a (para consistencia)
+mass = F_net_magnitude / a_magnitude_initial    # m = |F_net| / |a_initial|
+a_x = F_net_x / mass                            # a_x = F_net_x / m
+a_y = F_net_y / mass                            # a_y = F_net_y / m
+
 # Calcular posiciones y tiempo
 t = np.linspace(0, t_max, num_frames)
-x = 0.5 * a_x * t**2  # x(t) = (1/2) * a_x * t^2
-y = 0.5 * a_y * t**2  # y(t) = (1/2) * a_y * t^2
+x = 0.5 * a_x * t**2  # x(t) = (1/2) * a_x * t^2 (usando a_x de F_net)
+y = 0.5 * a_y * t**2  # y(t) = (1/2) * a_y * t^2 (usando a_y de F_net)
 
 # Índice del frame
 frame = 0
 
-# Calcular respuestas a las preguntas
+# Calculo de las preguntas
 
-# a) Dirección de la aceleración
+# a) Dirección de la aceleración (basada en F_net)
 a_magnitude = math.sqrt(a_x**2 + a_y**2) 
 angle_acc = math.atan2(a_y, a_x) 
 angle_deg = math.degrees(angle_acc)  
-direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg  - 360
+direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg  # Corrección del ajuste
 
 # b) Masa del objeto
-mass = F_net_magnitude / a_magnitude 
+mass = F_net_magnitude / a_magnitude_initial  # Usamos la magnitud inicial para consistencia
 
 # c) Rapidez después de 10.0 s (objeto en reposo inicialmente)
 v_x = a_x * 10.0  
@@ -139,7 +145,7 @@ while running:
     # Actualizar frame
     frame = (frame + 1) % num_frames
     if frame == 0:
-        print("Animación reiniciada")
+        print("Animacion reiniciada")
 
     # Actualizar pantalla
     pygame.display.flip()
