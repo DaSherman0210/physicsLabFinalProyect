@@ -6,6 +6,7 @@ import numpy as np
 pygame.init()
 
 # Configuración de la ventana 
+
 WIDTH, HEIGHT = 1200, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Movimiento del objeto con fuerzas")
@@ -144,8 +145,6 @@ while running:
 
     # Actualizar frame
     frame = (frame + 1) % num_frames
-    if frame == 0:
-        print("Animacion reiniciada")
 
     # Actualizar pantalla
     pygame.display.flip()

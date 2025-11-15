@@ -9,3 +9,9 @@ git clone https://github.com/DaSherman0210/physicsLabFinalProyect.git.
 ```bash
 pip install pygame numpy
 ```
+
+## Integrantes
+
+- German Andres Torres Cely - 2250195 
+- Juan David Rodríguez Blanco - 2250698 
+- Santiago Esteban Quintero Fuentes - 2242220 
