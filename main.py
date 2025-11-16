@@ -15,7 +15,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
-ORANGE = (255, 165, 0)  # Color para F3
+ORANGE = (255, 165, 0) 
 PURPLE = (128, 0, 128)
 
 # Parámetros del problema
@@ -36,7 +36,7 @@ F_net_x = F1_x + F2_x + F3_x
 F_net_y = F1_y + F2_y + F3_y
 F_net_magnitude = math.sqrt(F_net_x**2 + F_net_y**2)  # Magnitud de la fuerza neta
 
-# Calcular la masa y la aceleración a partir de F_net (ajustada)
+# Calcular la masa y la aceleración a partir de F_net
 a_magnitude_initial = 3.75  # Magnitud de a dada en el problema
 mass = F_net_magnitude / a_magnitude_initial    # m = |F_net| / |a|
 a_x = F_net_x / mass                            # a_x = F_net_x / m
@@ -56,7 +56,7 @@ frame = 0
 a_magnitude = math.sqrt(a_x**2 + a_y**2) 
 angle_acc = math.atan2(a_y, a_x) 
 angle_deg = math.degrees(angle_acc)  
-direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg  # Corrección del ajuste
+direction_acc = angle_deg if angle_deg >= 0 else 360 + angle_deg
 
 # b) Masa del objeto
 mass = F_net_magnitude / a_magnitude_initial  # Usamos la magnitud inicial para consistencia
