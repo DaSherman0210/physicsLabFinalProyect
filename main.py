@@ -6,7 +6,6 @@ import numpy as np
 pygame.init()
 
 # Configuración de la ventana 
-
 WIDTH, HEIGHT = 1200, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Movimiento del objeto con fuerzas")
@@ -16,6 +15,7 @@ WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 GREEN = (0, 255, 0)
+ORANGE = (255, 165, 0)  # Color para F3
 PURPLE = (128, 0, 128)
 
 # Parámetros del problema
@@ -24,19 +24,21 @@ dt = 0.05  # Intervalo de tiempo (s)
 num_frames = int(t_max / dt)
 
 # Escala para convertir metros a píxeles
-SCALE = 50  # píxeles por metro
-OFFSET_X, OFFSET_Y = 2 * SCALE, HEIGHT - 50  
+SCALE = 30  
+OFFSET_X = 1150  # Comenzar cerca del borde derecho
+OFFSET_Y = HEIGHT - 200  # Comenzar cerca del inferior
 
 # Fuerzas (en N)
-# F1_x, F1_y = -0.6, -5.5  # Fuerza 1
-F1_x, F1_y = 3, 0
-F2_x, F2_y = 0, -4.5     # Fuerza 2
-F_net_x, F_net_y = F1_x + F2_x, F1_y + F2_y  # Fuerza neta
+F1_x, F1_y = -2.0, 2.0
+F2_x, F2_y = 5.0, -3.0
+F3_x, F3_y = -45.0, 0.0
+F_net_x = F1_x + F2_x + F3_x
+F_net_y = F1_y + F2_y + F3_y
 F_net_magnitude = math.sqrt(F_net_x**2 + F_net_y**2)  # Magnitud de la fuerza neta
 
 # Calcular la masa y la aceleración a partir de F_net (ajustada)
-a_magnitude_initial = math.sqrt(0.5**2 + 0**2)  # Magnitud inicial de a (para consistencia)
-mass = F_net_magnitude / a_magnitude_initial    # m = |F_net| / |a_initial|
+a_magnitude_initial = 3.75  # Magnitud de a dada en el problema
+mass = F_net_magnitude / a_magnitude_initial    # m = |F_net| / |a|
 a_x = F_net_x / mass                            # a_x = F_net_x / m
 a_y = F_net_y / mass                            # a_y = F_net_y / m
 
@@ -70,7 +72,7 @@ v_y_comp = v_y
 
 # Imprimir resultados en la terminal
 print(f"a) Direccion de la aceleracion: {direction_acc:.2f} grados")
-print(f"b) Masa del objeto: {mass:.3f} kg ")
+print(f"b) Masa del objeto: {mass:.2f} kg ")
 print(f"c) Rapidez despues de 10.0 s: {speed:.2f} m/s")
 print(f"d) Componentes de velocidad despues de 10.0 s: \n Velocidad en X = {v_x_comp:.2f} m/s, \n Velocidad en Y = {v_y_comp:.2f} m/s")
 
@@ -108,7 +110,6 @@ while running:
     end_x1 = center_x + F1_x * SCALE / 5 * 4  
     end_y1 = center_y - F1_y * SCALE / 5 * 4  # Invertir y
     pygame.draw.line(screen, BLUE, (center_x, center_y), (end_x1, end_y1), 3)
-    # Calcular ángulo de la flecha
     angle1 = math.atan2(F1_y, F1_x)  # Ángulo en radianes
     arrow_head1 = [
         (end_x1, end_y1),
@@ -121,7 +122,6 @@ while running:
     end_x2 = center_x + F2_x * SCALE / 5 * 4
     end_y2 = center_y - F2_y * SCALE / 5 * 4
     pygame.draw.line(screen, GREEN, (center_x, center_y), (end_x2, end_y2), 3)
-    # Calcular ángulo de la flecha
     angle2 = math.atan2(F2_y, F2_x)
     arrow_head2 = [
         (end_x2, end_y2),
@@ -130,11 +130,22 @@ while running:
     ]
     pygame.draw.polygon(screen, GREEN, arrow_head2)
 
+    # Flecha F3
+    end_x3 = center_x + F3_x * SCALE / 5 * 4  
+    end_y3 = center_y - F3_y * SCALE / 5 * 4
+    pygame.draw.line(screen, ORANGE, (center_x, center_y), (end_x3, end_y3), 3)
+    angle3 = math.atan2(F3_y, F3_x)
+    arrow_head3 = [
+        (end_x3, end_y3),
+        rotate_point((end_x3 - 5, end_y3 + 5), -angle3, (end_x3, end_y3)),
+        rotate_point((end_x3 + 5, end_y3 + 5), -angle3, (end_x3, end_y3))
+    ]
+    pygame.draw.polygon(screen, ORANGE, arrow_head3)
+
     # Flecha F_net
     end_x_net = center_x + F_net_x * SCALE / 5 * 4
     end_y_net = center_y - F_net_y * SCALE / 5 * 4
     pygame.draw.line(screen, PURPLE, (center_x, center_y), (end_x_net, end_y_net), 3)
-    # Calcular ángulo de la flecha
     angle_net = math.atan2(F_net_y, F_net_x)
     arrow_head_net = [
         (end_x_net, end_y_net),
