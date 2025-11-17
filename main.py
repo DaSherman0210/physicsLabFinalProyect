@@ -1,6 +1,7 @@
-import pygame
 import math
+import pygame
 import numpy as np
+import matplotlib.pyplot as plt
 
 # Inicializar Pygame
 pygame.init()
@@ -163,3 +164,35 @@ while running:
 
 # Cerrar Pygame
 pygame.quit()
+
+#  Grafica posicion vs tiempo
+
+plt.figure(1)
+plt.plot(t, x, label='x(t)')
+plt.plot(t, y, label='y(t)')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Posición (m)')
+plt.legend()
+
+
+# Grafica velocidad vs tiempo
+
+plt.figure(2)
+plt.plot(t, a_x * t, label='v_x(t)')
+plt.plot(t, a_y * t, label='v_y(t)')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Velocidad (m/s)')
+plt.legend()
+
+
+# Grafica Aceleracion vs tiempo
+
+plt.figure(3)
+plt.plot(t, np.full_like(t, a_x), label='a_x')
+plt.plot(t, np.full_like(t, a_y), label='a_y')
+plt.xlabel('Tiempo (s)')
+plt.ylabel('Aceleración (m/s²)')
+plt.legend()
+
+plt.show()
+
